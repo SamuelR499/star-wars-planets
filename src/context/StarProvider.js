@@ -4,6 +4,13 @@ import PLContext from './PLContext';
 
 function StarProvider({ children }) {
   const [state, setState] = useState([]);
+  const [newArray, setNewArray] = useState([]);
+
+  const filter = {
+    name: '',
+  };
+
+  const [inputTxt, setInputTxt] = useState(filter);
 
   useEffect(() => {
     const PLANETS_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -21,6 +28,10 @@ function StarProvider({ children }) {
   const contextValue = {
     state,
     setState,
+    inputTxt,
+    setInputTxt,
+    newArray,
+    setNewArray,
   };
   return (
     <PLContext.Provider value={ contextValue }>
