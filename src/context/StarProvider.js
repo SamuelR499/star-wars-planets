@@ -6,11 +6,14 @@ function StarProvider({ children }) {
   const [state, setState] = useState([]);
   const [newArray, setNewArray] = useState([]);
 
-  const filter = {
+  const filterInfo = {
     name: '',
+    coluna: 'population',
+    operador: 'maior que',
+    valueFilter: 0,
   };
 
-  const [inputTxt, setInputTxt] = useState(filter);
+  const [filter, setFilter] = useState(filterInfo);
 
   useEffect(() => {
     const PLANETS_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -28,8 +31,8 @@ function StarProvider({ children }) {
   const contextValue = {
     state,
     setState,
-    inputTxt,
-    setInputTxt,
+    filter,
+    setFilter,
     newArray,
     setNewArray,
   };

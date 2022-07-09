@@ -4,19 +4,19 @@ import PLContext from '../context/PLContext';
 function Table() {
   const {
     state,
-    inputTxt,
+    filter,
     newArray,
     setNewArray,
   } = useContext(PLContext);
 
   useEffect(() => {
-    const { name } = inputTxt;
-    const filter = state.filter((element) => (
+    const { name } = filter;
+    const filtered = state.filter((element) => (
       element.name.includes(name)
     ));
-    setNewArray(filter);
-    console.log(inputTxt);
-  }, [inputTxt, setNewArray, state]);
+    setNewArray(filtered);
+  }, [filter, setNewArray, state]);
+
   return state.length && (
     <table>
       <thead>
