@@ -5,15 +5,23 @@ import PLContext from './PLContext';
 function StarProvider({ children }) {
   const [state, setState] = useState([]);
   const [newArray, setNewArray] = useState([]);
+  const [colunaFilter, setColunaFilter] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const filterInfo = {
     name: '',
-    coluna: 'population',
+    coluna: colunaFilter[0],
     operador: 'maior que',
     valueFilter: 0,
   };
 
   const [filter, setFilter] = useState(filterInfo);
+  const [multiFilter, setMultfilter] = useState([]);
 
   useEffect(() => {
     const PLANETS_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -35,6 +43,10 @@ function StarProvider({ children }) {
     setFilter,
     newArray,
     setNewArray,
+    colunaFilter,
+    setColunaFilter,
+    multiFilter,
+    setMultfilter,
   };
   return (
     <PLContext.Provider value={ contextValue }>

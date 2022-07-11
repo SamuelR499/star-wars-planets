@@ -2,7 +2,16 @@ import React, { useContext } from 'react';
 import PLContext from '../context/PLContext';
 
 function Header() {
-  const { filter, setFilter, newArray, setState } = useContext(PLContext);
+  const {
+    filter,
+    setFilter,
+    newArray,
+    setState,
+    colunaFilter,
+    setColunaFilter,
+    multiFilter,
+    setMultfilter,
+  } = useContext(PLContext);
 
   const handleChage = (event) => {
     const { target: { name, value } } = event;
@@ -24,10 +33,20 @@ function Header() {
       }
       return newArray;
     });
+
     setState(comparar);
+    const jaFiltrou = colunaFilter.filter((elmnt) => elmnt !== filter.coluna);
+    setColunaFilter(jaFiltrou);
+    setFilter((oldState) => ({ ...oldState, coluna: colunaFilter[0] }));
+
+    if (multiFilter.length === 0) {
+      setMultfilter([filter]);
+    } else {
+      setMultfilter((old) => [...old, filter]);
+    }
   };
 
-  return (
+  return colunaFilter && (
     <header className="filter">
       <input
         type="text"
@@ -47,11 +66,9 @@ function Header() {
             value={ filter.coluna }
             onChange={ (event) => handleChage(event) }
           >
-            <option>population</option>
-            <option>orbital_period</option>
-            <option>diameter</option>
-            <option>rotation_period</option>
-            <option>surface_water</option>
+            { colunaFilter.map((element) => (
+              <option key={ `${element}` }>{element}</option>
+            ))}
           </select>
         </label>
       </div>
