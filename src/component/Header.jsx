@@ -5,45 +5,74 @@ function Header() {
   const {
     filter,
     setFilter,
-    newArray,
-    setState,
+    // backup,
+    // state,
+    // setState,
     colunaFilter,
     setColunaFilter,
     multiFilter,
     setMultfilter,
   } = useContext(PLContext);
-
   const handleChage = (event) => {
     const { target: { name, value } } = event;
     setFilter((oldState) => ({ ...oldState, [name]: value }));
   };
 
   const handleClick = () => {
-    const { coluna, operador, valueFilter } = filter;
+    // const { coluna, operador, valueFilter } = filter;
 
-    const comparar = newArray.filter((cada) => {
-      if (operador === 'igual a') {
-        return Number(cada[coluna]) === Number(valueFilter);
-      }
-      if (operador === 'maior que') {
-        return Number(cada[coluna]) > Number(valueFilter);
-      }
-      if (operador === 'menor que') {
-        return Number(cada[coluna]) < Number(valueFilter);
-      }
-      return newArray;
-    });
+    // const filtrar = state.filter((cada) => {
+    //   if (operador === 'igual a') {
+    //     return Number(cada[coluna]) === Number(valueFilter);
+    //   }
+    //   if (operador === 'maior que') {
+    //     return Number(cada[coluna]) > Number(valueFilter);
+    //   }
+    //   return Number(cada[coluna]) < Number(valueFilter);
+    // });
+    // setState(filtrar);
 
-    setState(comparar);
     const jaFiltrou = colunaFilter.filter((elmnt) => elmnt !== filter.coluna);
     setColunaFilter(jaFiltrou);
-    setFilter((oldState) => ({ ...oldState, coluna: colunaFilter[0] }));
+    setFilter((oldState) => ({ ...oldState, coluna: colunaFilter[1] }));
 
     if (multiFilter.length === 0) {
       setMultfilter([filter]);
     } else {
       setMultfilter((old) => [...old, filter]);
     }
+  };
+
+  const removendoSujeira = (sujeira) => {
+    const casaLimpa = multiFilter.filter((cada) => cada !== sujeira); // array de filtros
+    setMultfilter(casaLimpa);
+    // const test = casaLimpa.map((filtro) => backup.filter((planeta) => {
+    //   if (filtro.operador === 'igual a') {
+    //     return Number(planeta[filtro.coluna]) === Number(filtro.valueFilter);
+    //   }
+    //   if (filtro.operador === 'maior que') {
+    //     return Number(planeta[filtro.coluna]) > Number(filtro.valueFilter);
+    //   }
+    //   return Number(planeta[filtro.coluna]) < Number(filtro.valueFilter);
+    // }));
+    // if (colunaFilter.length === 0) {
+    //   setColunaFilter([sujeira.coluna]);
+    // } else {
+    //   setColunaFilter((old) => [...old, sujeira.coluna]);
+    // }
+    // setState(test);
+  };
+
+  const clearAll = () => {
+    // setState(backup);
+    setColunaFilter([
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ]);
+    setMultfilter([]);
   };
 
   return colunaFilter && (
@@ -101,6 +130,32 @@ function Header() {
         onClick={ () => handleClick() }
       >
         Filtrar
+      </button>
+      <div>
+        {multiFilter && multiFilter.map((filtro) => (
+          <p
+            key={ filtro.coluna }
+            data-testid="filter"
+          >
+            {`${filtro.coluna}
+          ${filtro.operador}
+          ${filtro.valueFilter}`}
+            <button
+              type="button"
+              onClick={ () => removendoSujeira(filtro) }
+            >
+              ✖️
+
+            </button>
+          </p>
+        ))}
+      </div>
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ clearAll }
+      >
+        clear
 
       </button>
     </header>

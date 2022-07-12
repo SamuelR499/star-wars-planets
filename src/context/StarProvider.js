@@ -22,7 +22,7 @@ function StarProvider({ children }) {
 
   const [filter, setFilter] = useState(filterInfo);
   const [multiFilter, setMultfilter] = useState([]);
-
+  const [backup, setBackup] = useState([]);
   useEffect(() => {
     const PLANETS_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
     const getStarWArsPlanets = async () => {
@@ -31,10 +31,42 @@ function StarProvider({ children }) {
         .then((data) => {
           data.results.forEach((element) => delete element.residents);
           setState(data.results);
+          setBackup(data.results);
         });
     };
     getStarWArsPlanets();
   }, []);
+
+  const filtrar = () => {
+    console.log('atualizou');
+    let listaFiltrada = backup;
+
+    multiFilter.forEach((umFiltro) => {
+      const { coluna, operador, valueFilter } = umFiltro;
+      if (operador === 'igual a') {
+        listaFiltrada = listaFiltrada
+          .filter((cada) => Number(cada[coluna]) === Number(valueFilter));
+      }
+      if (operador === 'maior que') {
+        listaFiltrada = listaFiltrada
+          .filter((cada) => Number(cada[coluna]) > Number(valueFilter));
+      }
+
+      if (operador === 'menor que') {
+        listaFiltrada = listaFiltrada
+          .filter((cada) => Number(cada[coluna]) < Number(valueFilter));
+      }
+    });
+    console.log(listaFiltrada);
+    setState(listaFiltrada);
+  };
+  useEffect(() => {
+    if (multiFilter.length === 0) {
+      setState(backup);
+    } else {
+      filtrar();
+    }
+  }, [backup, multiFilter]);
 
   const contextValue = {
     state,
@@ -47,6 +79,7 @@ function StarProvider({ children }) {
     setColunaFilter,
     multiFilter,
     setMultfilter,
+    backup,
   };
   return (
     <PLContext.Provider value={ contextValue }>
