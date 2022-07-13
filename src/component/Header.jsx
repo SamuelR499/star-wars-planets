@@ -19,19 +19,6 @@ function Header() {
   };
 
   const handleClick = () => {
-    // const { coluna, operador, valueFilter } = filter;
-
-    // const filtrar = state.filter((cada) => {
-    //   if (operador === 'igual a') {
-    //     return Number(cada[coluna]) === Number(valueFilter);
-    //   }
-    //   if (operador === 'maior que') {
-    //     return Number(cada[coluna]) > Number(valueFilter);
-    //   }
-    //   return Number(cada[coluna]) < Number(valueFilter);
-    // });
-    // setState(filtrar);
-
     const jaFiltrou = colunaFilter.filter((elmnt) => elmnt !== filter.coluna);
     setColunaFilter(jaFiltrou);
     setFilter((oldState) => ({ ...oldState, coluna: colunaFilter[1] }));
@@ -46,21 +33,6 @@ function Header() {
   const removendoSujeira = (sujeira) => {
     const casaLimpa = multiFilter.filter((cada) => cada !== sujeira); // array de filtros
     setMultfilter(casaLimpa);
-    // const test = casaLimpa.map((filtro) => backup.filter((planeta) => {
-    //   if (filtro.operador === 'igual a') {
-    //     return Number(planeta[filtro.coluna]) === Number(filtro.valueFilter);
-    //   }
-    //   if (filtro.operador === 'maior que') {
-    //     return Number(planeta[filtro.coluna]) > Number(filtro.valueFilter);
-    //   }
-    //   return Number(planeta[filtro.coluna]) < Number(filtro.valueFilter);
-    // }));
-    // if (colunaFilter.length === 0) {
-    //   setColunaFilter([sujeira.coluna]);
-    // } else {
-    //   setColunaFilter((old) => [...old, sujeira.coluna]);
-    // }
-    // setState(test);
   };
 
   const clearAll = () => {
@@ -141,6 +113,7 @@ function Header() {
           ${filtro.operador}
           ${filtro.valueFilter}`}
             <button
+              data-testid={ `button-remove-${filtro.coluna}` }
               type="button"
               onClick={ () => removendoSujeira(filtro) }
             >

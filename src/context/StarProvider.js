@@ -38,7 +38,7 @@ function StarProvider({ children }) {
   }, []);
 
   const filtrar = () => {
-    console.log('atualizou');
+    // console.log('atualizou');
     let listaFiltrada = backup;
 
     multiFilter.forEach((umFiltro) => {
@@ -57,7 +57,7 @@ function StarProvider({ children }) {
           .filter((cada) => Number(cada[coluna]) < Number(valueFilter));
       }
     });
-    console.log(listaFiltrada);
+    // console.log(listaFiltrada);
     setState(listaFiltrada);
   };
   useEffect(() => {
