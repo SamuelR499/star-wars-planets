@@ -23,6 +23,8 @@ function StarProvider({ children }) {
   const [filter, setFilter] = useState(filterInfo);
   const [multiFilter, setMultfilter] = useState([]);
   const [backup, setBackup] = useState([]);
+  const [ordenar, setOrdenar] = useState({ sortBy: 'population', sort: 'ASC' });
+
   useEffect(() => {
     const PLANETS_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
     const getStarWArsPlanets = async () => {
@@ -37,8 +39,13 @@ function StarProvider({ children }) {
     getStarWArsPlanets();
   }, []);
 
+  const ordenate = () => {
+    console.log(ordenar); // desenvolver a lógica :(
+  };
+  useEffect(() => {
+    ordenate();
+  }, [ordenar]);
   const filtrar = () => {
-    // console.log('atualizou');
     let listaFiltrada = backup;
 
     multiFilter.forEach((umFiltro) => {
@@ -57,7 +64,6 @@ function StarProvider({ children }) {
           .filter((cada) => Number(cada[coluna]) < Number(valueFilter));
       }
     });
-    // console.log(listaFiltrada);
     setState(listaFiltrada);
   };
   useEffect(() => {
@@ -80,6 +86,7 @@ function StarProvider({ children }) {
     multiFilter,
     setMultfilter,
     backup,
+    setOrdenar,
   };
   return (
     <PLContext.Provider value={ contextValue }>

@@ -1,18 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PLContext from '../context/PLContext';
 
 function Header() {
   const {
     filter,
     setFilter,
-    // backup,
-    // state,
-    // setState,
+    setOrdenar,
     colunaFilter,
     setColunaFilter,
     multiFilter,
     setMultfilter,
   } = useContext(PLContext);
+  const arraySelect = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const [test, setTest] = useState({ sortBy: 'population', sort: 'ASC' });
+  const changeSort = (name, value) => {
+    setTest((old) => ({ ...old, [name]: value }));
+  };
+
   const handleChage = (event) => {
     const { target: { name, value } } = event;
     setFilter((oldState) => ({ ...oldState, [name]: value }));
@@ -36,7 +47,6 @@ function Header() {
   };
 
   const clearAll = () => {
-    // setState(backup);
     setColunaFilter([
       'population',
       'orbital_period',
@@ -102,6 +112,46 @@ function Header() {
         onClick={ () => handleClick() }
       >
         Filtrar
+      </button>
+      <label htmlFor="sortBy">
+        <select
+          name="sortBy"
+          data-testid="column-sort"
+          onChange={ ({ target: { name, value } }) => changeSort(name, value) }
+        >
+          {arraySelect.map((option) => (
+            <option key={ option }>{option}</option>
+          ))}
+        </select>
+      </label>
+      <label htmlFor="Asc">
+        Ascendente
+        <input
+          type="radio"
+          name="sort"
+          id="Asc"
+          value="ASC"
+          onChange={ ({ target: { name, value } }) => changeSort(name, value) }
+          data-testid="column-sort-input-asc"
+        />
+      </label>
+      <label htmlFor="Desc">
+        Descendente
+        <input
+          type="radio"
+          name="sort"
+          id="Desc"
+          value="DESC"
+          onChange={ ({ target: { name, value } }) => changeSort(name, value) }
+          data-testid="column-sort-input-desc"
+        />
+      </label>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ () => setOrdenar(test) }
+      >
+        Ordenar
       </button>
       <div>
         {multiFilter && multiFilter.map((filtro) => (
